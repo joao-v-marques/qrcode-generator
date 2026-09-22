@@ -37,6 +37,85 @@
                     <span class="btn-spinner" aria-hidden="true"></span>
                 </button>
             </div>
+
+            <button
+                type="button"
+                id="customize-toggle"
+                class="customize-toggle"
+                aria-expanded="false"
+                aria-controls="customize-panel"
+            >
+                Personalizar QR Code
+                <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <div id="customize-panel" class="customize-panel" hidden>
+                <div class="field">
+                    <span class="field__label">Cor do QR Code</span>
+                    <div class="color-field">
+                        <div class="swatch-group" id="fill-color-swatches" role="group" aria-label="Cor do QR Code">
+                            <button type="button" class="swatch" data-color="#000000" style="--swatch-color:#000000" aria-pressed="true" aria-label="Preto"></button>
+                            <button type="button" class="swatch" data-color="#00995d" style="--swatch-color:#00995d" aria-pressed="false" aria-label="Verde"></button>
+                            <button type="button" class="swatch" data-color="#004e4c" style="--swatch-color:#004e4c" aria-pressed="false" aria-label="Teal"></button>
+                            <button type="button" class="swatch" data-color="#f47920" style="--swatch-color:#f47920" aria-pressed="false" aria-label="Laranja"></button>
+                        </div>
+                        <label class="color-picker">
+                            <input type="color" id="fill-color-picker" value="#000000">
+                            <span class="visually-hidden">Cor do QR Code personalizada</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <span class="field__label">Cor de fundo</span>
+                    <div class="color-field">
+                        <div class="swatch-group" id="back-color-swatches" role="group" aria-label="Cor de fundo">
+                            <button type="button" class="swatch" data-color="#ffffff" style="--swatch-color:#ffffff" aria-pressed="true" aria-label="Branco"></button>
+                            <button type="button" class="swatch" data-color="#ece3d9" style="--swatch-color:#ece3d9" aria-pressed="false" aria-label="Bege"></button>
+                            <button type="button" class="swatch" data-color="#cde3bb" style="--swatch-color:#cde3bb" aria-pressed="false" aria-label="Verde claro"></button>
+                            <button type="button" class="swatch" data-color="#a4d8de" style="--swatch-color:#a4d8de" aria-pressed="false" aria-label="Azul claro"></button>
+                        </div>
+                        <label class="color-picker">
+                            <input type="color" id="back-color-picker" value="#ffffff">
+                            <span class="visually-hidden">Cor de fundo personalizada</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="color-preview" id="color-preview" aria-hidden="true">
+                    <div class="color-preview__inner"></div>
+                </div>
+
+                <div class="field">
+                    <span class="field__label">Tamanho</span>
+                    <div class="size-options">
+                        <input type="radio" name="size" id="size-small" value="small" class="visually-hidden">
+                        <label for="size-small">Pequeno<small>200px</small></label>
+
+                        <input type="radio" name="size" id="size-medium" value="medium" class="visually-hidden" checked>
+                        <label for="size-medium">Médio<small>400px</small></label>
+
+                        <input type="radio" name="size" id="size-large" value="large" class="visually-hidden">
+                        <label for="size-large">Grande<small>800px</small></label>
+
+                        <input type="radio" name="size" id="size-extra-large" value="extra_large" class="visually-hidden">
+                        <label for="size-extra-large">Extra Grande<small>1200px</small></label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="border-input" class="field__label">Borda</label>
+                    <div class="border-control">
+                        <input type="range" id="border-input" min="0" max="20" value="4">
+                        <span id="border-value" class="border-value">4</span>
+                    </div>
+                </div>
+
+                <button type="button" id="reset-customize" class="reset-btn">Restaurar padrão</button>
+            </div>
+
             <p id="error-message" class="error-message" role="alert" hidden></p>
         </form>
 

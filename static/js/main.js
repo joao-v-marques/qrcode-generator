@@ -1,4 +1,11 @@
 (function () {
+    const DEFAULTS = {
+        fillColor: '#000000',
+        backColor: '#ffffff',
+        size: 'medium',
+        border: 4,
+    };
+
     const form = document.getElementById('qrcode-form');
     const linkInput = document.getElementById('link-input');
     const generateBtn = document.getElementById('generate-btn');
@@ -6,6 +13,20 @@
     const result = document.getElementById('result');
     const qrcodeImage = document.getElementById('qrcode-image');
     const downloadLink = document.getElementById('download-link');
+
+    const customizeToggle = document.getElementById('customize-toggle');
+    const customizePanel = document.getElementById('customize-panel');
+    const fillSwatchGroup = document.getElementById('fill-color-swatches');
+    const backSwatchGroup = document.getElementById('back-color-swatches');
+    const fillColorPicker = document.getElementById('fill-color-picker');
+    const backColorPicker = document.getElementById('back-color-picker');
+    const colorPreview = document.getElementById('color-preview');
+    const borderInput = document.getElementById('border-input');
+    const borderValue = document.getElementById('border-value');
+    const resetBtn = document.getElementById('reset-customize');
+
+    let selectedFillColor = DEFAULTS.fillColor;
+    let selectedBackColor = DEFAULTS.backColor;
 
     function showError(message) {
         errorMessage.textContent = message;
@@ -22,6 +43,72 @@
         generateBtn.classList.toggle('is-loading', isLoading);
     }
 
+    function updateColorPreview() {
+        colorPreview.style.setProperty('--color-preview-bg', selectedBackColor);
+        colorPreview.style.setProperty('--color-preview-fill', selectedFillColor);
+    }
+
+    function setSwatchGroupSelection(group, color) {
+        group.querySelectorAll('.swatch').forEach(function (swatch) {
+            const isMatch = swatch.dataset.color.toLowerCase() === color.toLowerCase();
+            swatch.setAttribute('aria-pressed', String(isMatch));
+        });
+    }
+
+    function setFillColor(color) {
+        selectedFillColor = color;
+        fillColorPicker.value = color;
+        setSwatchGroupSelection(fillSwatchGroup, color);
+        updateColorPreview();
+    }
+
+    function setBackColor(color) {
+        selectedBackColor = color;
+        backColorPicker.value = color;
+        setSwatchGroupSelection(backSwatchGroup, color);
+        updateColorPreview();
+    }
+
+    fillSwatchGroup.addEventListener('click', function (event) {
+        const swatch = event.target.closest('.swatch');
+        if (!swatch) return;
+        setFillColor(swatch.dataset.color);
+    });
+
+    backSwatchGroup.addEventListener('click', function (event) {
+        const swatch = event.target.closest('.swatch');
+        if (!swatch) return;
+        setBackColor(swatch.dataset.color);
+    });
+
+    fillColorPicker.addEventListener('input', function () {
+        setFillColor(fillColorPicker.value);
+    });
+
+    backColorPicker.addEventListener('input', function () {
+        setBackColor(backColorPicker.value);
+    });
+
+    borderInput.addEventListener('input', function () {
+        borderValue.textContent = borderInput.value;
+    });
+
+    customizeToggle.addEventListener('click', function () {
+        const isExpanded = customizeToggle.getAttribute('aria-expanded') === 'true';
+        customizeToggle.setAttribute('aria-expanded', String(!isExpanded));
+        customizePanel.hidden = isExpanded;
+    });
+
+    resetBtn.addEventListener('click', function () {
+        setFillColor(DEFAULTS.fillColor);
+        setBackColor(DEFAULTS.backColor);
+        document.getElementById('size-medium').checked = true;
+        borderInput.value = DEFAULTS.border;
+        borderValue.textContent = String(DEFAULTS.border);
+    });
+
+    updateColorPreview();
+
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
         hideError();
@@ -33,13 +120,28 @@
             return;
         }
 
+        if (selectedFillColor.toLowerCase() === selectedBackColor.toLowerCase()) {
+            showError('A cor do QR Code e a cor de fundo não podem ser iguais.');
+            result.hidden = true;
+            return;
+        }
+
+        const size = form.querySelector('input[name="size"]:checked').value;
+        const border = Number(borderInput.value);
+
         setLoading(true);
 
         try {
             const response = await fetch('/api/qrcode', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ link }),
+                body: JSON.stringify({
+                    link,
+                    fill_color: selectedFillColor,
+                    back_color: selectedBackColor,
+                    size,
+                    border,
+                }),
             });
 
             const data = await response.json();
