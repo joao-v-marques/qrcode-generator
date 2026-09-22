@@ -11,11 +11,10 @@
     const generateBtn = document.getElementById('generate-btn');
     const errorMessage = document.getElementById('error-message');
     const result = document.getElementById('result');
+    const resultPlaceholder = document.getElementById('result-placeholder');
     const qrcodeImage = document.getElementById('qrcode-image');
     const downloadLink = document.getElementById('download-link');
 
-    const customizeToggle = document.getElementById('customize-toggle');
-    const customizePanel = document.getElementById('customize-panel');
     const fillSwatchGroup = document.getElementById('fill-color-swatches');
     const backSwatchGroup = document.getElementById('back-color-swatches');
     const fillColorPicker = document.getElementById('fill-color-picker');
@@ -93,12 +92,6 @@
         borderValue.textContent = borderInput.value;
     });
 
-    customizeToggle.addEventListener('click', function () {
-        const isExpanded = customizeToggle.getAttribute('aria-expanded') === 'true';
-        customizeToggle.setAttribute('aria-expanded', String(!isExpanded));
-        customizePanel.hidden = isExpanded;
-    });
-
     resetBtn.addEventListener('click', function () {
         setFillColor(DEFAULTS.fillColor);
         setBackColor(DEFAULTS.backColor);
@@ -117,12 +110,14 @@
         if (!link) {
             showError('Informe um link para gerar o QR Code.');
             result.hidden = true;
+            resultPlaceholder.hidden = false;
             return;
         }
 
         if (selectedFillColor.toLowerCase() === selectedBackColor.toLowerCase()) {
             showError('A cor do QR Code e a cor de fundo não podem ser iguais.');
             result.hidden = true;
+            resultPlaceholder.hidden = false;
             return;
         }
 
@@ -152,9 +147,11 @@
 
             qrcodeImage.src = data.image;
             downloadLink.href = data.image;
+            resultPlaceholder.hidden = true;
             result.hidden = false;
         } catch (error) {
             result.hidden = true;
+            resultPlaceholder.hidden = false;
             showError(error.message || 'Não foi possível gerar o QR Code. Tente novamente.');
         } finally {
             setLoading(false);
