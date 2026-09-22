@@ -1,0 +1,220 @@
+:root {
+    --color-bg-start: #6366f1;
+    --color-bg-end: #8b5cf6;
+    --color-text: #1e1b2e;
+    --color-text-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-primary: #6366f1;
+    --color-primary-hover: #4f46e5;
+    --color-error: #dc2626;
+    --color-error-bg: #fef2f2;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+    color: var(--color-text);
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 45px rgba(31, 20, 80, 0.25);
+    padding: 40px 32px;
+}
+
+.card__header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.card__header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.card__subtitle {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#link-input {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#link-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+#generate-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #ffffff;
+    background: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+#generate-btn:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+}
+
+#generate-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+#generate-btn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+.btn-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+#generate-btn.is-loading .btn-spinner {
+    display: inline-block;
+}
+
+#generate-btn.is-loading .btn-label {
+    display: none;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-message {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: var(--color-error);
+    background: var(--color-error-bg);
+    border-radius: 10px;
+}
+
+.result {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    animation: fade-in 0.35s ease;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result__qrcode {
+    padding: 16px;
+    background: #ffffff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.result__qrcode img {
+    display: block;
+    width: 220px;
+    height: 220px;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--color-primary);
+    background: #eef2ff;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+.download-btn:hover {
+    background: #e0e7ff;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 32px 22px;
+    }
+}

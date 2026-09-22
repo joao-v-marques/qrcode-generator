@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="card">
+        <div class="card__header">
+            <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z" fill="currentColor"/>
+                </svg>
+            </span>
+            <h1>Gerador de QR Code</h1>
+            <p class="card__subtitle">Cole um link e gere um QR Code pronto para baixar.</p>
+        </div>
+
+        <form id="qrcode-form" class="qrcode-form" novalidate>
+            <label for="link-input" class="visually-hidden">Link</label>
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="link-input"
+                    name="link"
+                    placeholder="https://exemplo.com"
+                    autocomplete="off"
+                    autofocus
+                >
+                <button type="submit" id="generate-btn">
+                    <span class="btn-label">Gerar QR Code</span>
+                    <span class="btn-spinner" aria-hidden="true"></span>
+                </button>
+            </div>
+            <p id="error-message" class="error-message" role="alert" hidden></p>
+        </form>
+
+        <section id="result" class="result" hidden>
+            <div class="result__qrcode">
+                <img id="qrcode-image" alt="QR Code gerado" width="220" height="220">
+            </div>
+            <a id="download-link" class="download-btn" download="qrcode.png">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Baixar QR Code
+            </a>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
